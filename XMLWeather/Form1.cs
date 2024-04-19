@@ -48,6 +48,7 @@ namespace XMLWeather
             blendLabel.BackColor = Color.FromArgb(150, 0, 0, 0);
             cs.Parent = blendLabel;
 
+            Cursor.Position = this.PointToScreen(new Point(this.Width / 2, (this.Height / 2) + 100));
             this.BackgroundImage = setBackground();
         }
 
@@ -90,6 +91,18 @@ namespace XMLWeather
 
             reader.ReadToFollowing("temperature");
             days[0].currentTemp = reader.GetAttribute("value");
+            days[0].tempLow = reader.GetAttribute("min");
+            days[0].tempHigh = reader.GetAttribute("max");
+
+
+            reader.ReadToFollowing("humidity");
+            days[0].humidity = reader.GetAttribute("value");
+
+            reader.ReadToFollowing("speed");
+            days[0].windSpeed = reader.GetAttribute("value");
+
+            reader.ReadToFollowing("direction");
+            days[0].windDirection = reader.GetAttribute("code");
 
             reader.ReadToFollowing("weather");
             dayWeather = Convert.ToDouble(reader.GetAttribute("number")) / 100;
@@ -120,6 +133,7 @@ namespace XMLWeather
                 (f.ClientSize.Height - next.Height) / 2);
             f.Controls.Add(next);
             next.Parent = testLabel;
+            Cursor.Position = next.PointToScreen(new Point(next.Width / 2, (next.Height / 2) + 100));
             next.Focus();
         }
 

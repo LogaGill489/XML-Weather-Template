@@ -37,7 +37,15 @@ namespace XMLWeather
 
             highLowLabel.Parent = tempBackLabel;
             highLowLabel.Location = new Point(0, 110);
-            highLowLabel.Width = tempLabel.Width;
+            highLowLabel.Width = tempLabel.Width; 
+
+            humidityLabel.Parent = tempBackLabel;
+            humidityLabel.Location = new Point(0, 40);
+            humidityLabel.Width = tempLabel.Width;
+
+            windspeedLabel.Parent = tempBackLabel;
+            windspeedLabel.Location = new Point(0, 65);
+            windspeedLabel.Width = tempLabel.Width;
 
             //forecast background setup
             weekBackLabel.BackColor = Color.FromArgb(OPACITY, 0, 0, 0);
@@ -187,6 +195,7 @@ namespace XMLWeather
             Label[] dateLabels = new Label[] { oneDayAwayLabel, twoDaysAwayLabel, threeDaysAwayLabel, fourDaysAwayLabel, fiveDaysAwayLabel, sixDaysAwayLabel };
             //pictureBox array for the forecast images
             PictureBox[] forecastImages = new PictureBox[] { forecastPic1, forecastPic2, forecastPic3, forecastPic4, forecastPic5, forecastPic6 };
+            string tempUnit = "C";
 
             this.BackgroundImage = Form1.setBackground(); //call function to display background image
 
@@ -254,20 +263,20 @@ namespace XMLWeather
                 if (i == 0) //stops issues with over-filling lists & alligning
                 {
                     //sets today's high and low
-                    highLowLabel.Text = $"L:{Convert.ToInt16(lows[0])}° H:{Convert.ToInt16(highs[0])}°";
+                    highLowLabel.Text = $"L:{Convert.ToInt16(lows[0])}°{tempUnit} H:{Convert.ToInt16(highs[0])}°{tempUnit}";
                 }
                 else
                 {
                     //sets labels for the forecast
-                    lowLabels[i - 1].Text = $"{Convert.ToInt16(lows[i])}°";
-                    highLabels[i - 1].Text = $"{Convert.ToInt16(highs[i])}°";
+                    lowLabels[i - 1].Text = $"{Convert.ToInt16(lows[i])}°{tempUnit}";
+                    highLabels[i - 1].Text = $"{Convert.ToInt16(highs[i])}°{tempUnit}";
                     dateLabels[i - 1].Text = days[i];
                 }
             }
 
-            //sets current temp in bigg letters
+            //sets current temp in big letters
             double currentTemp = double.Parse(Form1.days[0].currentTemp);
-            tempLabel.Text = $"{Convert.ToInt16(currentTemp)}°";
+            tempLabel.Text = $"{Convert.ToInt16(currentTemp)}°{tempUnit}";
 
             //displays location
             cityLabel.Text = Form1.days[0].location;
@@ -284,12 +293,42 @@ namespace XMLWeather
             }
             Form1.days[0].condition = new string(dayCondition); //rewrites form in the days list
             weatherLabel.Text = Form1.days[0].condition;
+
+            humidityLabel.Text = $"Humidity: {Form1.days[0].humidity}%";
+            windspeedLabel.Text = $"WS: {Form1.days[0].windSpeed}m/s";
         }
 
         private void globeImage_Click(object sender, EventArgs e)
         {
             Form1.ChangeScreen(this, new WorldSearch()); //changes to search screen
             this.Dispose();
+        }
+
+        private void tempLabel_MouseEnter(object sender, EventArgs e)
+        {
+            tempLabel.Visible = false;
+            humidityLabel.Visible = true;
+            windspeedLabel.Visible = true;
+
+            weatherLabel.Location = new Point(0, 88);
+            if (Form1.days[0].windSpeed == "0")
+            {
+                weatherLabel.Text = "Wind Direction: N/A";
+            }
+            else
+            {
+                weatherLabel.Text = $"Wind Direction: {Form1.days[0].windDirection}";
+            }
+        }
+
+        private void tempLabel_MouseLeave(object sender, EventArgs e)
+        {
+            tempLabel.Visible = true;
+            humidityLabel.Visible = false;
+            windspeedLabel.Visible = false;
+
+            weatherLabel.Location = new Point(0, 90);
+            weatherLabel.Text = Form1.days[0].condition;
         }
     }
 }
