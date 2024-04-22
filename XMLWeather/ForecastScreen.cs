@@ -212,7 +212,7 @@ namespace XMLWeather
                         currentImage = Resources.drizzle;
                         break;
                     case 5: //Rain
-                        if (condition <= 500 || condition <= 504)
+                        if (condition <= 500 && condition <= 504)
                         {
                             currentImage = Resources.cloudy_with_rain;
                         }

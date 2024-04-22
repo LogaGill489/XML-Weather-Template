@@ -58,10 +58,10 @@ namespace XMLWeather
 
             while (reader.Read())
             {
-                //TODO: create a day object
+                //Day objects
                 Day d = new Day();
 
-                //TODO: fill day object with required data
+                //Fills day object with required data
                 reader.ReadToFollowing("time");
                 d.date = reader.GetAttribute("day");
 
@@ -72,7 +72,6 @@ namespace XMLWeather
                 d.tempLow = reader.GetAttribute("min");
                 d.tempHigh = reader.GetAttribute("max");
 
-                //TODO: if day object not null add to the days list
                 days.Add(d);
             }
             days.Remove(days[7]);
@@ -82,7 +81,7 @@ namespace XMLWeather
         {
             // current info is not included in forecast file so we need to use this file to get it
             XmlReader reader = XmlReader.Create("http://api.openweathermap.org/data/2.5/weather?q=" + city + "&mode=xml&units=metric&appid=3f2e224b815c0ed45524322e145149f0");
-            //TODO: find the city and current temperature and add to appropriate item in days list
+            //Finds the city and current temperature and adds to appropriate item in days list
             reader.ReadToFollowing("city");
             days[0].location = reader.GetAttribute("name");
 
@@ -132,6 +131,7 @@ namespace XMLWeather
             next.Location = new Point((f.ClientSize.Width - next.Width) / 2,
                 (f.ClientSize.Height - next.Height) / 2);
             f.Controls.Add(next);
+            f.BackgroundImage = setBackground();
             next.Parent = testLabel;
             Cursor.Position = next.PointToScreen(new Point(next.Width / 2, (next.Height / 2) + 100));
             next.Focus();
