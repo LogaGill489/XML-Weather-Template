@@ -167,11 +167,11 @@ namespace XMLWeather
             }
 
             //displays "Good ***" based on current time in that day
-            if (displayedTime.Hour >= 5 && displayedTime.Hour <= 12)
+            if (displayedTime.Hour >= 5 && displayedTime.Hour < 12)
             {
                 greetingLabel.Text = "Good Morning";
             }
-            else if (displayedTime.Hour > 12 && displayedTime.Hour <= 19)
+            else if (displayedTime.Hour >= 12 && displayedTime.Hour <= 19)
             {
                 greetingLabel.Text = "Good Afternoon";
             }
